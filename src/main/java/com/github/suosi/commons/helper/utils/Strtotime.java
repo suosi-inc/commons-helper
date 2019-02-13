@@ -1,4 +1,4 @@
-package cn.com.suosi.commons.helper.utils;
+package com.github.suosi.commons.helper.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;

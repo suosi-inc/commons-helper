@@ -1,4 +1,4 @@
-package cn.com.suosi.commons.helper.utils;
+package com.github.suosi.commons.helper.utils;
 
 import org.junit.Assert;
 import org.junit.Test;

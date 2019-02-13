@@ -1,6 +1,6 @@
-package cn.com.suosi.commons.helper;
+package com.github.suosi.commons.helper;
 
-import cn.com.suosi.commons.helper.utils.Strtotime;
+import com.github.suosi.commons.helper.utils.Strtotime;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 
