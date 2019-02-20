@@ -39,5 +39,8 @@ public class StrtotimeTest {
         Assert.assertEquals(Strtotime.parse("+1 day", Strtotime.parse(dtString)), Strtotime.parse(dtStringPlus));
         Assert.assertEquals(Strtotime.parse("+1 days", Strtotime.parse(dtString)), Strtotime.parse(dtStringPlus));
         Assert.assertEquals(Strtotime.parse("-1 day", Strtotime.parse(dtString)), Strtotime.parse(dtStringMinus));
+        Assert.assertEquals(Strtotime.parse("+24 hours", Strtotime.parse(dtString)), Strtotime.parse(dtStringPlus));
+        Assert.assertEquals(Strtotime.parse("+24 hour", Strtotime.parse(dtString)), Strtotime.parse(dtStringPlus));
+        Assert.assertEquals(Strtotime.parse("+1440 minutes", Strtotime.parse(dtString)), Strtotime.parse(dtStringPlus));
     }
 }

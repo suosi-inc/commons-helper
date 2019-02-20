@@ -68,6 +68,40 @@ public final class Strtotime {
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy年M月d日 HH时m分")));
 
         DT_MATCHERS.add(new Matcher() {
+            private final Pattern minutes = Pattern.compile("[\\-\\+]?\\d+ minute[s]?");
+            @Override
+            public LocalDateTime tryConvert(String input, Long time) {
+                String exp = StringUtils.trim(input);
+                if (StringUtils.isNotBlank(exp) && minutes.matcher(exp).matches()) {
+                    int t = NumberUtils.toInt(exp.split(" ")[0]);
+                    LocalDateTime ldt = LocalDateTime.now();
+                    if (time != null) {
+                        ldt = LocalDateTime.ofInstant(Instant.ofEpochSecond(Math.abs(time)), ZoneId.systemDefault());
+                    }
+                    return t != 0 ? ldt.plusMinutes(t) : ldt;
+                }
+                return null;
+            }
+        });
+
+        DT_MATCHERS.add(new Matcher() {
+            private final Pattern hours = Pattern.compile("[\\-\\+]?\\d+ hour[s]?");
+            @Override
+            public LocalDateTime tryConvert(String input, Long time) {
+                String exp = StringUtils.trim(input);
+                if (StringUtils.isNotBlank(exp) && hours.matcher(exp).matches()) {
+                    int t = NumberUtils.toInt(exp.split(" ")[0]);
+                    LocalDateTime ldt = LocalDateTime.now();
+                    if (time != null) {
+                        ldt = LocalDateTime.ofInstant(Instant.ofEpochSecond(Math.abs(time)), ZoneId.systemDefault());
+                    }
+                    return t != 0 ? ldt.plusHours(t) : ldt;
+                }
+                return null;
+            }
+        });
+
+        DT_MATCHERS.add(new Matcher() {
             private final Pattern days = Pattern.compile("[\\-\\+]?\\d+ day[s]?");
             @Override
             public LocalDateTime tryConvert(String input, Long time) {
