@@ -7,11 +7,23 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
+import static com.github.suosi.commons.helper.Static.date;
+
 public class StrtotimeTest {
 
     public static final String dtString = "2015-04-06 16:03:03";
     public static final String dtStringPlus = "2015-04-07 16:03:03";
     public static final String dtStringMinus = "2015-04-05 16:03:03";
+
+    @Test
+    public void test() {
+        System.out.println(date("yyyy-MM-dd HH:mm:ss", Strtotime.parse("+1 minutes", Strtotime.parse("2015-04-06 16:03:03"))));
+        System.out.println(date("yyyy-MM-dd HH:mm:ss", Strtotime.parse("-1 weeks", Strtotime.parse("2015-04-06 16:03:03"))));
+        System.out.println(date("yyyy-MM-dd HH:mm:ss", Strtotime.parse("+2 year", Strtotime.parse("2015-04-06 16:03:03"))));
+        System.out.println(date("yyyy-MM-dd HH:mm:ss", Strtotime.parse("+3 day", Strtotime.parse("2015-04-06 16:03:03"))));
+        System.out.println(date("yyyy-MM-dd HH:mm:ss", Strtotime.parse("+4 month", Strtotime.parse("2015-04-06 16:03:03"))));
+        System.out.println(date("yyyy-MM-dd HH:mm:ss", Strtotime.parse("+4 seconds", Strtotime.parse("2015-04-06 16:03:03"))));
+    }
 
     @Test
     public void testParse1() {

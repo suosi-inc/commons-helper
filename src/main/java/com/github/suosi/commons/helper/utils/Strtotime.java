@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -16,11 +17,11 @@ import java.util.regex.Pattern;
  * @author niuchaoqun
  */
 public final class Strtotime {
-    private static final List<Matcher> DT_MATCHERS;
+    private static final List<DMatcher> DT_MATCHERS;
 
-    private static final List<Matcher> D_MATCHERS;
+    private static final List<DMatcher> D_MATCHERS;
 
-    public interface Matcher {
+    public interface DMatcher {
         LocalDateTime tryConvert(String input, Long time);
     }
 
@@ -67,95 +68,56 @@ public final class Strtotime {
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH时mm分")));
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy年M月d日 HH时m分")));
 
-        DT_MATCHERS.add(new Matcher() {
-            private final Pattern minutes = Pattern.compile("[\\-\\+]?\\d+ minute[s]?");
+        DT_MATCHERS.add(new DMatcher() {
+            private final Pattern regex = Pattern.compile("[\\-\\+]?\\d+ (year|month|day|hour|minute|second|week)[s]?");
             @Override
             public LocalDateTime tryConvert(String input, Long time) {
                 String exp = StringUtils.trim(input);
-                if (StringUtils.isNotBlank(exp) && minutes.matcher(exp).matches()) {
-                    int t = NumberUtils.toInt(exp.split(" ")[0]);
-                    LocalDateTime ldt = LocalDateTime.now();
-                    if (time != null) {
-                        ldt = LocalDateTime.ofInstant(Instant.ofEpochSecond(Math.abs(time)), ZoneId.systemDefault());
-                    }
-                    return t != 0 ? ldt.plusMinutes(t) : ldt;
-                }
-                return null;
-            }
-        });
-
-        DT_MATCHERS.add(new Matcher() {
-            private final Pattern hours = Pattern.compile("[\\-\\+]?\\d+ hour[s]?");
-            @Override
-            public LocalDateTime tryConvert(String input, Long time) {
-                String exp = StringUtils.trim(input);
-                if (StringUtils.isNotBlank(exp) && hours.matcher(exp).matches()) {
-                    int t = NumberUtils.toInt(exp.split(" ")[0]);
-                    LocalDateTime ldt = LocalDateTime.now();
-                    if (time != null) {
-                        ldt = LocalDateTime.ofInstant(Instant.ofEpochSecond(Math.abs(time)), ZoneId.systemDefault());
-                    }
-                    return t != 0 ? ldt.plusHours(t) : ldt;
-                }
-                return null;
-            }
-        });
-
-        DT_MATCHERS.add(new Matcher() {
-            private final Pattern days = Pattern.compile("[\\-\\+]?\\d+ day[s]?");
-            @Override
-            public LocalDateTime tryConvert(String input, Long time) {
-                String exp = StringUtils.trim(input);
-                if (StringUtils.isNotBlank(exp) && days.matcher(exp).matches()) {
-                    int t = NumberUtils.toInt(exp.split(" ")[0]);
-                    LocalDateTime ldt = LocalDateTime.now();
-                    if (time != null) {
-                        ldt = LocalDateTime.ofInstant(Instant.ofEpochSecond(Math.abs(time)), ZoneId.systemDefault());
-                    }
-                    return t != 0 ? ldt.plusDays(t) : ldt;
-                }
-                return null;
-            }
-        });
-
-        DT_MATCHERS.add(new Matcher() {
-            private final Pattern months = Pattern.compile("[\\-\\+]?\\d+ month[s]?");
-            @Override
-            public LocalDateTime tryConvert(String input, Long time) {
-                String exp = StringUtils.trim(input);
-                if (StringUtils.isNotBlank(exp) && months.matcher(exp).matches()) {
-                    int t = NumberUtils.toInt(exp.split(" ")[0]);
-                    LocalDateTime ldt = LocalDateTime.now();
-                    if (time != null) {
-                        ldt = LocalDateTime.ofInstant(Instant.ofEpochSecond(Math.abs(time)), ZoneId.systemDefault());
-                    }
-                    return t != 0 ? ldt.plusMonths(t) : ldt;
-                }
-                return null;
-            }
-        });
-
-        DT_MATCHERS.add(new Matcher() {
-            private final Pattern years = Pattern.compile("[\\-\\+]?\\d+ year[s]?");
-            @Override
-            public LocalDateTime tryConvert(String input, Long time) {
-                String exp = StringUtils.trim(input);
-                if (StringUtils.isNotBlank(exp) && years.matcher(exp).matches()) {
+                Matcher matcher = regex.matcher(exp);
+                if (StringUtils.isNotBlank(exp) && matcher.find()) {
                     int t = NumberUtils.toInt(exp.split(" ")[0]);
                     LocalDateTime ldt = LocalDateTime.now();
                     if (time != null) {
                         ldt = LocalDateTime.ofInstant(Instant.ofEpochSecond(Math.abs(time)), ZoneId.systemDefault());
                     }
 
-                    return t != 0 ? ldt.plusYears(t) : ldt;
+                    if (t != 0) {
+                        String type = matcher.group(1);
+                        switch (type) {
+                            case "year" :
+                                ldt = ldt.plusYears(t);
+                                break;
+                            case "month" :
+                                ldt = ldt.plusMonths(t);
+                                break;
+                            case "day" :
+                                ldt = ldt.plusDays(t);
+                                break;
+                            case "hour" :
+                                ldt = ldt.plusHours(t);
+                                break;
+                            case "minute" :
+                                ldt = ldt.plusMinutes(t);
+                                break;
+                            case "second" :
+                                ldt = ldt.plusSeconds(t);
+                                break;
+                            case "week" :
+                                ldt = ldt.plusWeeks(t);
+                                break;
+                            default:
+                        }
+                    }
+
+                    return ldt;
                 }
+
                 return null;
             }
         });
-
     }
 
-    private static class DateTimeFormatMatcher implements Matcher {
+    private static class DateTimeFormatMatcher implements DMatcher {
 
         private final DateTimeFormatter dateFormat;
 
@@ -173,7 +135,7 @@ public final class Strtotime {
         }
     }
 
-    private static class DateFormatMatcher implements Matcher {
+    private static class DateFormatMatcher implements DMatcher {
 
         private final DateTimeFormatter dateFormat;
 
@@ -195,14 +157,14 @@ public final class Strtotime {
     public static long parse(String input) {
         if (input != null) {
             LocalDateTime ldt;
-            for (Matcher matcher : DT_MATCHERS) {
+            for (DMatcher matcher : DT_MATCHERS) {
                 ldt = matcher.tryConvert(input, null);
                 if (ldt != null) {
                     return ldt.atZone(ZoneId.systemDefault()).toEpochSecond();
                 }
             }
 
-            for (Matcher matcher : D_MATCHERS) {
+            for (DMatcher matcher : D_MATCHERS) {
                 ldt = matcher.tryConvert(input, null);
                 if (ldt != null) {
                     return ldt.atZone(ZoneId.systemDefault()).toEpochSecond();
@@ -215,7 +177,7 @@ public final class Strtotime {
     public static long parse(String input, Long time) {
         if (input != null) {
             LocalDateTime ldt;
-            for (Matcher matcher : DT_MATCHERS) {
+            for (DMatcher matcher : DT_MATCHERS) {
                 ldt = matcher.tryConvert(input, time);
 
                 if (ldt != null) {
@@ -223,7 +185,7 @@ public final class Strtotime {
                 }
             }
 
-            for (Matcher matcher : D_MATCHERS) {
+            for (DMatcher matcher : D_MATCHERS) {
                 ldt = matcher.tryConvert(input, time);
                 if (ldt != null) {
                     return ldt.atZone(ZoneId.systemDefault()).toEpochSecond();
