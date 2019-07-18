@@ -32,7 +32,9 @@ public final class Strtotime {
         D_MATCHERS.add(new DateFormatMatcher(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
         D_MATCHERS.add(new DateFormatMatcher(DateTimeFormatter.ofPattern("yyyy/M/d")));
         D_MATCHERS.add(new DateFormatMatcher(DateTimeFormatter.ofPattern("yyyy年MM月dd日")));
+        D_MATCHERS.add(new DateFormatMatcher(DateTimeFormatter.ofPattern("yyyy年MM月dd")));
         D_MATCHERS.add(new DateFormatMatcher(DateTimeFormatter.ofPattern("yyyy年M月d日")));
+        D_MATCHERS.add(new DateFormatMatcher(DateTimeFormatter.ofPattern("yyyy年M月d")));
     }
 
     static {
