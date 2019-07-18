@@ -41,12 +41,14 @@ public final class Strtotime {
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH时mm分ss秒")));
+        DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss")));
 
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS")));
 
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy-M-d HH:m:s")));
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy年M月d日 HH时m分s秒")));
+        DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy年M月d日 HH:m:s")));
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy/M/d HH:m:s")));
 
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
@@ -66,7 +68,9 @@ public final class Strtotime {
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy-M-d HH:m")));
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy/M/d HH:m")));
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH时mm分")));
+        DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm")));
         DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy年M月d日 HH时m分")));
+        DT_MATCHERS.add(new DateTimeFormatMatcher(DateTimeFormatter.ofPattern("yyyy年M月d日 HH:m")));
 
         DT_MATCHERS.add(new DMatcher() {
             private final Pattern regex = Pattern.compile("[\\-\\+]?\\d+ (year|month|day|hour|minute|second|week)[s]?");
