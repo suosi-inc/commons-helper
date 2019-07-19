@@ -30,7 +30,7 @@ public class StrtotimeTest {
         LocalDateTime ldt = LocalDateTime.parse(dtString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         long timeStamp = ldt.toEpochSecond(ZoneOffset.ofHours(8));
         System.out.println(timeStamp);
-
+        System.out.println(Strtotime.parse("2019-6-22 9:35:36"));
         Assert.assertEquals(Strtotime.parse("2015-04-06T16:03:03Z"), timeStamp);
         Assert.assertEquals(Strtotime.parse("2015-04-06T16:03:03.123"), timeStamp);
         Assert.assertEquals(Strtotime.parse("2015-04-06T16:03:03"), timeStamp);
