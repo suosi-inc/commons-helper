@@ -33,6 +33,7 @@ public class StaticTest {
     @Test
     public void testDate() {
         System.out.println("date:" + Static.date());
+        System.out.println("date:" + Static.date(1573025736L));
     }
 
     @Test

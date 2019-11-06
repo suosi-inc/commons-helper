@@ -154,6 +154,15 @@ public class Static {
     /**
      * 根据格式化参数返回时间字符串
      *
+     * @return
+     */
+    public static String date(final long time) {
+        return date(DEFAULT_DATETIME_FORMAT, time);
+    }
+
+    /**
+     * 根据格式化参数返回时间字符串
+     *
      * @param pattern
      * @return
      */
